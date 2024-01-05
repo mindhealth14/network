@@ -1,0 +1,80 @@
+{% load static %}
+
+<div id="post-container-{{post.id}}"  class="card w-50 mb-3 shadow-lg rounded" data-postID="{{ post.id }}"="">
+  <div class="card-body">
+        <div class="card-text"> 
+            <p class="pt-5 "  id="post-content-{{post.id}}"> {{ post.text }} </p>
+        </div>
+
+     <hr>
+      <div class="d-flex justify-content-between">
+
+         <div>
+          {% if post.author == request.user %}
+          <div class="d-flex">
+            <span onclick="openEditModal(this)" class="button-style mx-2" data-postId="{{ post.id }}"> <small>Edit</small> </span>
+            <span class="button-style" onclick="openDeleteModal(this)" data-postId="{{ post.id }}"> <small>Delete</small> </span>
+           </div>
+            
+           
+          {% endif %}
+    
+          <div class="d-flex">
+            {% if request.user.is_authenticated %}
+
+                          {% if request.user in post.likes.all %}
+                                <div class="d-flex">
+                                  <small class="like-count " data-count-id="{{ post.id }}">  </small>
+                                  <span class="mx-2 like-button" data-post-id="{{ post.id }}"> &#10084;</span>
+                                </div>
+                        
+                          {% else %}
+                                <div class="d-flex">
+                                  <small class="like-count " data-count-id="{{ post.id }}"> </small>
+                                  <span class="mx-2 like-button" data-post-id="{{ post.id }}"> &#9829; </span>
+                                </div>
+                          {% endif %}
+            {% else %}
+                <span class="mx-2"><small class="like-count " data-count-id="{{ post.id }}">  </small> &#9829;</span>
+
+            {% endif %}
+        </div>
+        
+          <p class="card-text-date"><small class="text-body-secondary">{{ post.date }}</small></p>
+         </div>
+        
+        <span> 
+          {% if post.author.profile.image %}
+            <img src="{{ post.author.profile.image.url }}" class="img-fluid img-thumbnail" alt="...">
+            {% else %}
+            <!-- Handle the case where no image is associated -->
+            <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60' fill='%23777777'%3E%3Crect width='100%' height='100%' rx='16'/%3E%3Ctext x='50%' y='50%' dy='.3em' font-size='20' text-anchor='middle'%3E200x200%3C/text%3E%3C/svg%3E" class="img-fluid rounded" alt="Image Placeholder">
+          {% endif %}
+
+           
+           {% if user.is_authenticated %}
+           <h5 class="card-title"><a href="{% url 'profile-detail' post.author %}">{{ post.author }}</a></h5>
+           {% else %}
+           <h5 class="card-title"><a href="{% url 'login' %}">{{ post.author }}</a></h5>
+           {% endif %}
+            
+          
+        </span>
+
+        
+      </div>
+      
+
+    
+    </div>
+    
+  </div>
+
+  
+
+
+   
+{% include 'network/update-modal.html' %}
+
+
+

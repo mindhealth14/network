@@ -1,0 +1,59 @@
+.img-thumbnail {
+    width: 60px; /* Adjust the size as needed */
+    height: 60px; /* Equal width and height for a circle */
+    border-radius: 50%;
+}
+
+.img-detail {
+    width: 100%;
+    height:100%;
+    border-radius: 10%;
+    
+}
+
+.profile_image_box{
+    width: 60%;
+    height: 85%;
+   
+}
+
+
+dialog {
+    z-index: 10;
+    width: 550px;
+    height: 250px;
+    background: white;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+#closeDialog {
+    margin-top: 10px;
+}
+
+
+/* Customize the dialog backdrop background color and opacity */
+dialog::backdrop {
+    background-color: hsl(200, 100%, 50%, 0.5);/* Change the background color and opacity */
+    z-index: 1050; /* Change the z-index value */
+}
+
+ a {
+    text-decoration: none;
+    color: #4b5156;
+    margin-left: 5px;
+    
+}
+
+.image-placeholder{
+    display: block;
+    width: 350px;
+    height: 450px;
+    background-color: #4b5156;
+    padding-left: 3em;
+}
+
+.edit_post{
+    display: none;
+}

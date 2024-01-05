@@ -1,0 +1,10 @@
+
+{% block body %}
+<!-- update_post.html -->
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Update Post</button>
+</form>
+{% endblock body %}
+    

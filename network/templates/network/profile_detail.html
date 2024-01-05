@@ -1,0 +1,175 @@
+{% extends 'network/layout.html' %}
+{% load static %}
+
+
+
+{% block body %}
+    
+        <h2>{{ user.first_name }} {{ user.last_name }}</h2>
+        <hr>
+        <div class="row "> 
+            <div class="col-md-4 "> 
+                <div class="profile_image_box">
+                    {% if user.profile.image %}
+                <img src="{{ user.profile.image.url }}" class="img-fluid img-detail rounded"> 
+                {% else %}
+                <img class="img-detail" src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/2048px-No_image_available.svg.png">
+                {% endif %}
+                </div>
+
+                
+               
+             </div>
+
+
+            <div class="col-md-8"> 
+
+                <div class="row row-col justify-content-around px-3"> 
+                    {% with total_followers=user.following.count %}
+                    
+                    <div class="col">
+
+                            <span class="count btn btn-outline-primary">
+                                <span class="follower-count"> {{ total_followers }} </span>
+                                Follower{{ total_followers|pluralize }}
+                            </span>
+
+                          
+                    </div>
+
+                        <div class="col">
+                            <span class="count btn btn-outline-primary">{{ user.followed_by.count }} Following </span>
+                        </div>
+
+                    <div class="col d-flex flex-row-reverse"> 
+                        
+                        {% if user == request.user %}
+                       
+                        <p> <i style="color: red;">{{ request.user }} </i> Can not follow <i style="color: red;">{{ request.user }} </i></p>
+
+                        {% else %}
+                        <button class="btn btn-primary js-follow" style="width: 100px;" 
+                        data-action ='{% if you_follow %}un{% endif %}follow' data-url="{% url 'user_follow' user.username %}"
+                        data-username="{{ user.username }}">
+                        <span class="js-follow-text">
+                            
+                            {% if you_follow %}
+                                Unfollow
+                                {% else %}
+                                Follow
+                            {% endif %}
+                        </span>
+                        </button>
+                            
+                        {% endif %}
+                            
+                    
+                    </div>
+                </div>
+                <hr>
+                 <h1>Account Details</h1>
+                 <p>Username: {{ request.user }} </p>
+                 <p>Full Name: {{ user.first_name }} {{ user.last_name }} </p>
+                 <p>Email: {{ user.email }}</p>
+
+               <hr>
+            </div>
+        </div>
+
+        <div class="row" >
+           <div class="col-md-3"></div>
+           <div class="col-md-9" >
+
+            <div style="margin-left: 7em;">
+
+                {% for post in de_post %}
+                <div id="post-container-{{post.id}}"  class="card w-75 mb-3 shadow-lg rounded" data-postID="{{ post.id }}"="">
+                    <div class="card-body">
+                          <div class="card-text"> 
+                              <p class="pt-5 "  id="post-content-{{post.id}}"> {{ post.text }} </p>
+                          </div>
+                  
+                       <hr>
+                        <div class="d-flex justify-content-between">
+                  
+                           <div>
+                            {% if post.author == request.user %}
+                            <div class="d-flex">
+                              <span onclick="openEditModal(this)" class="button-style mx-2" data-postId="{{ post.id }}"> <small>Edit</small> </span>
+                              <span class="button-style" onclick="openDeleteModal(this)" data-postId="{{ post.id }}"> <small>Delete</small> </span>
+                             </div>
+                              
+                             
+                            {% endif %}
+                      
+                            <div class="d-flex">
+
+                                {% if request.user.is_authenticated %}
+                                        {% if request.user in post.likes.all %}
+                                            <div class="d-flex">
+                                                <small class="like-detail-count" data-detail-count-id="{{ post.id }}"> </small>
+                                                <span class="mx-2 like-button" data-post-id="{{ post.id }}"> &#10084;</span>
+                                            </div>
+                                        {% else %}
+                                            <div class="d-flex">
+                                                <small class="like-detail-count" data-detail-count-id="{{ post.id }}">  </small>
+                                                <span class="mx-2 like-button" data-post-id="{{ post.id }}"> &#9829; </span>
+                                            </div>
+                                        {% endif %}
+                                    {% else %}
+                                        <span class="mx-2"><small class="like-count " data-count-id="{{ post.id }}"> {{ post.likes.count }} </small> &#9829;</span>
+                                    {% endif %}
+
+                              
+                          </div>
+                          
+                            <p class="card-text-date"><small class="text-body-secondary">{{ post.date }}</small></p>
+                           </div>
+                          
+                          <span> 
+                            {% if post.author.profile.image %}
+                              <img src="{{ post.author.profile.image.url }}" class="img-fluid img-thumbnail" alt="...">
+                              {% else %}
+                              <!-- Handle the case where no image is associated -->
+                              <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60' fill='%23777777'%3E%3Crect width='100%' height='100%' rx='16'/%3E%3Ctext x='50%' y='50%' dy='.3em' font-size='20' text-anchor='middle'%3E200x200%3C/text%3E%3C/svg%3E" class="img-fluid rounded" alt="Image Placeholder">
+                            {% endif %}
+                  
+                             
+                             {% if user.is_authenticated %}
+                             <h5 class="card-title"><a href="{% url 'profile-detail' post.author %}">{{ post.author }}</a></h5>
+                             {% else %}
+                             <h5 class="card-title"><a href="{% url 'login' %}">{{ post.author }}</a></h5>
+                             {% endif %}
+                              
+                            
+                          </span>
+                  
+                          
+                        </div>
+                        
+                  
+                      
+                      </div>
+                      
+                    </div>
+                  
+                 
+              {% endfor %}
+
+            </div>
+
+             
+          
+               
+              
+           </div>
+            
+            
+        
+        </div>
+              
+        
+        
+   {% endwith %}
+{% endblock body %}
+    

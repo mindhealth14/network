@@ -1,0 +1,84 @@
+{% load static %}
+
+<!-- <p class="click-me">Click me to open the modal</p> -->
+
+
+<dialog class="js-modal"  data-modal>
+    <!-- Content of the modal dialog goes here -->
+    <div class="d-flex justify-content-md-between" >  <h3 class="flex-grow-1">New post</h3><span class="close-modal"> &#x2715;</span></div>
+    
+    <hr>
+    <!-- js-post-text is added to the form class wigdet at form.py -->
+
+   <div class="w-full">
+    <textarea class="form-control js-post-text mb-4" rows="3" cols="40" placeholder="What's on your mind" data-post-url = "{% url 'new_post' %}"> </textarea>
+   </div>
+     
+    <div class="d-grid mb-2"><button type="button" class="btn btn-primary mb-1 js-submit">Make New Post</button></div>
+  
+    
+</dialog>
+
+<!-- Close button modal here  -->
+
+
+
+
+<!-- Start edit button modal here  -->
+
+<dialog class="js-update-modal"  data-update-modal>
+    <!-- Content of the modal dialog goes here -->
+    <div class="d-flex justify-content-md-between" >  
+        <h3 class="flex-grow-1 ">Update</h3>
+        <span class="closeModal" onclick="closeEditModal()"> &#x2715;</span>
+    </div>
+    <hr>
+   <div class="w-full">
+        <input type="hidden" id="js-update-post-id-hidden" value="">
+        <textarea id="js-update-post-id-textarea" class="form-control js-update-text mb-4" rows="3" cols="40"> </textarea>
+    </div>
+    <div class="d-grid mb-2">
+        <button 
+            onclick="handlePostUpdate()"
+            type="button" 
+            class="btn btn-primary mb-1 js-update-submit"
+        >Update Post
+        </button>
+    </div>  
+</dialog>
+
+<!-- Start Delete button modal here  -->
+
+<dialog class="js-delete-modal"  data-delete-modal>
+    <!-- Content of the modal dialog goes here -->
+    <div class="d-flex justify-content-md-between" >
+        <h3 class="flex-grow-1 del-post"></h3>
+        <span 
+            onclick="closeDeleteModal()"
+            class="closeModal"
+        > &#x2715;</span>
+    </div>
+    
+    <hr>
+    
+   <div class="w-full">
+    <p class="js-delet-text">
+        Do you want to delete post id no: <span id="delete-id-broadcast"></span>
+    </p>
+    </div>
+  
+ <div class="d-grid mb-2">
+    <button 
+        onclick="handlePostDelete()"
+        type="button" 
+        class="btn btn-primary mb-1 del-btn-post"
+    >Delete Post
+    </button>
+</div>
+      
+</dialog>
+
+
+
+
+

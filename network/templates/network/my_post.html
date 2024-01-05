@@ -1,0 +1,19 @@
+{% extends 'network/layout.html' %}
+{% load static %}
+
+
+
+{% block body %}
+<div class="posts-container">
+  {% for post in my_post %}
+  {% include 'network/post.html' %}
+{% endfor %}
+
+</div>
+
+
+     
+{% endblock body %}
+
+
+{% include 'network/modal.html' %}

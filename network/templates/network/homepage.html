@@ -1,0 +1,18 @@
+{% extends 'network/layout.html' %}
+
+
+{% block title %}
+    
+{% endblock title %}
+    
+
+
+{% block body %}
+    <div class="posts-container">
+        {% for post in posts %}
+        {% include 'network/post.html' %}
+    {% endfor %}
+    {% include 'network/paginator.html' with page=posts %}
+    </div>
+{% endblock body %}
+    
